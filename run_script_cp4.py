@@ -154,8 +154,8 @@ def yolo13(cfg_path, weight_path='yolo13x.pt', auto_optim=True, retrain=False, *
 
 if __name__ == '__main__':
     pass
-    # bs=16, 16392 MB
-    yolo11('yolo11x-obb.yaml', weight_path='yolo11x.pt', auto_optim=False, name=f'yolov11x')
-    yolo11('yolo11l-obb.yaml', weight_path='yolo11l.pt', auto_optim=False, name=f'yolov11l')
-    yolo11('yolo11s-obb.yaml', weight_path='yolo11s.pt', auto_optim=False, name=f'yolov11s')
-    yolo11('yolo11n-obb.yaml', weight_path='yolo11n.pt', auto_optim=False, name=f'yolov11n')
+    # bs=16, 22474 MB
+    yolo9('yolov9e-obb.yaml', weight_path='yolov9e.pt', auto_optim=False, name=f'yolov9e')
+    yolo9('yolov9c-obb.yaml', weight_path='yolov9c.pt', auto_optim=False, name=f'yolov9c')
+    yolo9('yolov9s-obb.yaml', weight_path='yolov9s.pt', auto_optim=False, name=f'yolov9s')
+    yolo9('yolov9t-obb.yaml', weight_path='yolov9t.pt', auto_optim=False, name=f'yolov9t')

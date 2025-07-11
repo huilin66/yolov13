@@ -1,11 +1,10 @@
 import torch
 from ultralytics import YOLO
 
-BATCH_SIZE = 32
+BATCH_SIZE = 16
 EPOCHS = 100
 IMGSZ = 640
 CONF = 0.5
-TASK = 'detect'
 DEVICE = torch.device('cuda:0')
 DATA = "DOTAv1_1024.yaml"
 FREEZE_NUMS = {
@@ -55,11 +54,11 @@ def model_train(cfg_path, pretrain_path, network=YOLO, auto_optim=True, retrain=
     model.train(**train_params)
 
 def model_val(weight_path, network=YOLO, **kwargs):
-    model = network(weight_path, task=TASK)
+    model = network(weight_path)
     model.val(device=DEVICE, **kwargs)
 
 def model_predict(weight_path, img_dir, network=YOLO, save=True, save_txt=True, stream=True, **kwargs):
-    model = network(weight_path, task=TASK)
+    model = network(weight_path)
     result = model.predict(
         img_dir,
         save=save,
@@ -73,7 +72,7 @@ def model_predict(weight_path, img_dir, network=YOLO, save=True, save_txt=True, 
     for _ in result: pass
 
 def model_track(weight_path, img_dir, network=YOLO, save=True, save_txt=True, stream=True, **kwargs):
-    model = network(weight_path, task=TASK)
+    model = network(weight_path)
     result = model.track(
         img_dir,
         persist=True,
@@ -89,7 +88,7 @@ def model_track(weight_path, img_dir, network=YOLO, save=True, save_txt=True, st
 
 
 def model_track_single(weight_path, img_dir, network=YOLO, save=True, save_txt=True, stream=True, **kwargs):
-    model = network(weight_path, task=TASK)
+    model = network(weight_path)
     import os
     img_list = os.listdir(img_dir)
     for img_name in img_list:
@@ -107,7 +106,7 @@ def model_track_single(weight_path, img_dir, network=YOLO, save=True, save_txt=T
         )
 
 def model_export(weight_path, format='onnx', network=YOLO, **kwargs):
-    model = network(weight_path, task=TASK)
+    model = network(weight_path)
     model.export(format=format, **kwargs)
 
 
@@ -155,6 +154,8 @@ def yolo13(cfg_path, weight_path='yolo13x.pt', auto_optim=True, retrain=False, *
 
 if __name__ == '__main__':
     pass
-
-
-    yolo13('yolov13n-obb.yaml', weight_path='yolov13n.pt', auto_optim=False, name=f'baseline_test')
+    # bs=16, 34948 MB
+    yolo13('yolov13x-obb.yaml', weight_path='yolov13x.pt', auto_optim=False, name=f'yolov13x')
+    yolo13('yolov13l-obb.yaml', weight_path='yolov13l.pt', auto_optim=False, name=f'yolov13l')
+    yolo13('yolov13s-obb.yaml', weight_path='yolov13s.pt', auto_optim=False, name=f'yolov13s')
+    yolo13('yolov13n-obb.yaml', weight_path='yolov13n.pt', auto_optim=False, name=f'yolov13n')
